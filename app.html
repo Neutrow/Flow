@@ -647,16 +647,19 @@
   padding:0 28px;z-index:200;transition:background 0.3s;
 ">
   <span style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--indigo);">◆<span style="color:var(--text);"> FLOW</span></span>
-  <button onclick="window.location.href='index.html'" style="
-    display:flex;align-items:center;gap:6px;
-    background:none;border:1px solid var(--border);
-    border-radius:8px;padding:6px 13px;
-    font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
-    color:var(--text2);cursor:pointer;transition:all 0.15s;
-  " onmouseover="this.style.borderColor='var(--indigo)';this.style.color='var(--indigo-light)'"
-     onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-    ← Se déconnecter
-  </button>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span id="user-email" style="font-size:12px;color:var(--text3);font-weight:500;"></span>
+    <button id="logout-btn" onclick="handleLogout()" style="
+      display:flex;align-items:center;gap:6px;
+      background:none;border:1px solid var(--border);
+      border-radius:8px;padding:6px 13px;
+      font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
+      color:var(--text2);cursor:pointer;transition:all 0.15s;
+    " onmouseover="this.style.borderColor='var(--indigo)';this.style.color='var(--indigo-light)'"
+       onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
+      ← Se déconnecter
+    </button>
+  </div>
 </div>
 <div class="app">
   <!-- SIDEBAR -->
@@ -1168,7 +1171,8 @@ let state = JSON.parse(localStorage.getItem('flow_state') || 'null') || {
 if (!state.planEvents) state.planEvents = [];
 
 function save() {
-  localStorage.setItem('flow_state', JSON.stringify(state));
+  const _key = window._supabaseUserId ? 'flow_state_' + window._supabaseUserId : 'flow_state';
+  localStorage.setItem(_key, JSON.stringify(state));
   updateAll();
 }
 
@@ -2306,6 +2310,73 @@ function init() {
 init();
 
 window.addEventListener('resize', () => { renderStats(); renderPlanning(); });
+
+// ══════════════════════════════════════════════════════════════════
+//  SUPABASE AUTH GUARD — app.html
+//  Vérifie la session au chargement. Si non connecté → index.html.
+// ══════════════════════════════════════════════════════════════════
+</script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  const SUPABASE_URL = 'https://kawltcvazlzkiacdbdka.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_g-FoawX8KXLqSTpRmHH_Rg_uvMNq6Lg';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ── Vérification de session au chargement ──────────────────────
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    // Pas connecté → retour à la landing page
+    window.location.replace('index.html');
+  } else {
+    // Afficher l'email dans la topbar
+    const emailEl = document.getElementById('user-email');
+    if (emailEl) emailEl.textContent = session.user.email;
+
+    // Stocker la clé localStorage propre à l'utilisateur
+    // (chaque utilisateur a ses propres données)
+    const userId = session.user.id;
+    const storageKey = 'flow_state_' + userId;
+    const savedState = localStorage.getItem(storageKey);
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState);
+        Object.assign(state, parsed);
+        if (!state.planEvents)  state.planEvents  = [];
+        if (!state.shopItems)   state.shopItems   = [];
+        if (!state.completions) state.completions = {};
+        updateAll();
+        initPomodoro();
+      } catch(e) { console.warn('Erreur parsing state:', e); }
+    }
+
+    // Surcharger la fonction save() pour utiliser la clé utilisateur
+    const originalSave = window.save;
+    window.save = function() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      updateAll();
+    };
+    // Patch save en remplaçant la fonction dans le scope global
+    // (le script non-module a déjà défini save() ; on la réécrit ici)
+    Object.defineProperty(window, '_supabaseUserId', { value: userId, writable: false });
+  }
+
+  // ── Écouter les changements de session (ex: token expiré) ──────
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT' || !session) {
+      window.location.replace('index.html');
+    }
+  });
+
+  // ── Déconnexion ────────────────────────────────────────────────
+  window.handleLogout = async function() {
+    const btn = document.getElementById('logout-btn');
+    if (btn) { btn.textContent = '…'; btn.disabled = true; }
+    await supabase.auth.signOut();
+    window.location.href = 'index.html';
+  };
 </script>
 </body>
 </html>
