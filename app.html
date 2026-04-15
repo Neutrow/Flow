@@ -626,41 +626,150 @@
   }
 
 
+  /* ── Lang picker in app ─────────────────────────────────────── */
+  .app-lang-picker { position: relative; }
+  .app-lang-btn {
+    display: flex; align-items: center; gap: 5px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 5px 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600; color: var(--text2);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .app-lang-btn:hover { border-color: var(--indigo); color: var(--indigo-light); }
+  .app-lang-dropdown {
+    position: absolute; top: calc(100% + 6px); right: 0;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 5px; min-width: 148px;
+    z-index: 600; box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: none;
+  }
+  .app-lang-dropdown.open { display: block; }
+  .app-lang-option {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; border-radius: 7px;
+    cursor: pointer; font-size: 12px; font-weight: 500; color: var(--text2);
+    transition: all 0.12s;
+  }
+  .app-lang-option:hover { background: var(--bg3); color: var(--text); }
+  .app-lang-option.active { color: var(--indigo-light); background: var(--indigo-dim); }
+
+  /* ── Mobile sidebar overlay ──────────────────────────────────── */
+  .sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 99;
+  }
+  .sidebar-overlay.show { display: block; }
+
+  /* ── Mobile top hamburger ────────────────────────────────────── */
+  .mob-hamburger {
+    display: none;
+    flex-direction: column; gap: 4px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .mob-hamburger span {
+    display: block; width: 18px; height: 2px;
+    background: var(--text2); border-radius: 2px;
+  }
+
+  /* ── Tablet ──────────────────────────────────────────────────── */
   @media (max-width: 900px) {
     .sidebar { width: 60px; padding: 16px 8px; }
-    .sidebar .nav-item span, .sidebar .logo span, .sidebar .nav-section, .sidebar .points-badge .pts-label, .sidebar .theme-toggle span { display: none; }
+    .sidebar .nav-item span, .sidebar .logo span, .sidebar .nav-section,
+    .sidebar .points-badge .pts-label, .sidebar .theme-toggle span { display: none; }
     .logo { font-size: 18px; padding: 0; }
-    .main { margin-left: 60px; max-width: calc(100vw - 60px); padding: 20px 16px; }
+    .main { margin-left: 60px; max-width: calc(100vw - 60px); padding: 20px 16px; padding-top: 62px; }
     .shop-grid { grid-template-columns: 1fr 1fr; }
     .overview-grid { grid-template-columns: 1fr 1fr; }
     .big-progress-card { grid-column: span 2; }
+    #topbar { left: 60px; }
+  }
+
+  /* ── Mobile ──────────────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    /* Hide fixed sidebar, use overlay mode */
+    .sidebar {
+      left: -220px; width: 220px !important; padding: 24px 16px !important;
+      transition: left 0.28s cubic-bezier(.4,0,.2,1);
+      z-index: 200;
+    }
+    .sidebar.open { left: 0; }
+    .sidebar .nav-item span, .sidebar .logo span, .sidebar .nav-section,
+    .sidebar .points-badge .pts-label, .sidebar .theme-toggle span { display: inline !important; }
+    .logo { font-size: 15px !important; padding: 0 8px !important; }
+    .main { margin-left: 0 !important; max-width: 100vw !important; padding: 16px 14px 60px !important; padding-top: 58px !important; }
+    #topbar { left: 0 !important; }
+    .mob-hamburger { display: flex; }
+    /* Stack grids */
+    .overview-grid { grid-template-columns: 1fr !important; }
+    .big-progress-card { grid-column: 1 !important; }
+    .daily-score-card { grid-column: 1 !important; }
+    .shop-grid { grid-template-columns: 1fr 1fr !important; }
+    .grid2, .grid3 { grid-template-columns: 1fr !important; }
+    /* Planning grid horizontal scroll */
+    #planningGrid { min-width: 640px; }
+    .week-grid { grid-template-columns: repeat(7,1fr); }
+    /* Pomodoro */
+    .pom-ring-wrap { width: 150px !important; height: 150px !important; }
+    .pom-time { font-size: 32px !important; }
+    /* Modal full-screen on mobile */
+    .modal { width: calc(100vw - 32px) !important; border-radius: 16px !important; }
+    /* Topbar compact */
+    #user-email { display: none !important; }
+  }
+  @media (max-width: 400px) {
+    .shop-grid { grid-template-columns: 1fr !important; }
+    .today-stats { grid-template-columns: 1fr 1fr 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR WITH LOGOUT -->
+<!-- TOP BAR WITH LOGOUT + LANG + HAMBURGER -->
 <div id="topbar" style="
   position:fixed;top:0;left:220px;right:0;height:44px;
   background:var(--bg2);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;z-index:200;transition:background 0.3s;
+  padding:0 20px;z-index:200;transition:background 0.3s;
 ">
-  <span style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--indigo);">◆<span style="color:var(--text);"> FLOW</span></span>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <span id="user-email" style="font-size:12px;color:var(--text3);font-weight:500;"></span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <!-- Hamburger — visible on mobile only -->
+    <button class="mob-hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <span style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--indigo);">◆<span style="color:var(--text);"> FLOW</span></span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span id="user-email" style="font-size:11px;color:var(--text3);font-weight:500;"></span>
+    <!-- Language picker -->
+    <div class="app-lang-picker" id="appLangPicker">
+      <button class="app-lang-btn" onclick="toggleAppLangDropdown()">
+        <span id="appLangFlag">🇫🇷</span>
+        <span id="appLangLabel">FR</span>
+        <span style="font-size:9px;opacity:0.5;">▾</span>
+      </button>
+      <div class="app-lang-dropdown" id="appLangDropdown">
+        <div class="app-lang-option" data-lang="fr" onclick="setAppLang('fr')">🇫🇷 Français</div>
+        <div class="app-lang-option" data-lang="en" onclick="setAppLang('en')">🇬🇧 English</div>
+        <div class="app-lang-option" data-lang="es" onclick="setAppLang('es')">🇪🇸 Español</div>
+        <div class="app-lang-option" data-lang="pt" onclick="setAppLang('pt')">🇧🇷 Português</div>
+      </div>
+    </div>
     <button id="logout-btn" onclick="handleLogout()" style="
-      display:flex;align-items:center;gap:6px;
+      display:flex;align-items:center;gap:5px;
       background:none;border:1px solid var(--border);
-      border-radius:8px;padding:6px 13px;
+      border-radius:8px;padding:5px 11px;
       font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
       color:var(--text2);cursor:pointer;transition:all 0.15s;
     " onmouseover="this.style.borderColor='var(--indigo)';this.style.color='var(--indigo-light)'"
        onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-      ← Se déconnecter
+      <span id="logout-label">← Se déconnecter</span>
     </button>
   </div>
 </div>
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <div class="app">
   <!-- SIDEBAR -->
   <aside class="sidebar">
@@ -1374,7 +1483,7 @@ function buyShopItem(id) {
   const item = state.shopItems.find(i => i.id === id);
   if (!item || item.unlocked) return;
   if (state.points < item.cost) {
-    showToast('Pas assez de points !');
+    showToast(ta('insufficient_pts'));
     return;
   }
   state.points -= item.cost;
@@ -2289,6 +2398,365 @@ function isLightColor(hex) {
 }
 
 
+
+// ==================== I18N ====================
+const APP_TRANSLATIONS = {
+  fr: {
+    logout: '← Se déconnecter',
+    overview:'Vue d\'ensemble', habits:'Habitudes', tasks:'Tâches',
+    shop:'Boutique', stats:'Statistiques', pomodoro:'Pomodoro', planning:'Planning',
+    // Page subtitles
+    habits_sub:'Suivez vos routines quotidiennes, hebdomadaires et mensuelles',
+    tasks_sub:'Vision hebdomadaire de vos to-dos',
+    stats_sub:'Visualisez la progression de vos habitudes dans le temps',
+    pom_sub:'Travaillez en sessions concentrées',
+    plan_sub:'Cliquez sur un créneau pour ajouter un événement',
+    shop_title:'Boutique', shop_sub:'Dépensez vos points sur des récompenses personnalisables',
+    overview_title:'Bonjour 👋',
+    // Habits
+    add_habit:'+ Ajouter une habitude',
+    // Tasks
+    add_task:'+ Nouvelle tâche',
+    // Shop
+    add_reward:'+ Ajouter récompense',
+    pts_available:'points disponibles',
+    // Today
+    today_progress:'Progression du jour',
+    today_habits:'Habitudes du jour', today_tasks:'Tâches du jour',
+    see_all:'Voir tout',
+    // Pomodoro
+    focus:'Focus', short_break:'Pause courte', long_break:'Pause longue',
+    start:'▶ Démarrer', pause:'⏸ Pause', resume:'▶ Reprendre', reset:'↺', skip:'⏭',
+    sessions:'Sessions :',
+    today_label:'Aujourd\'hui',
+    work_dur:'Focus', short_dur:'Pause courte', long_dur:'Pause longue',
+    durations:'Durées (minutes)',
+    task_link:'Tâche associée (optionnel)',
+    chrono_title:'Chronomètre',
+    lap:'⏱ Lap',
+    sessions_done:'Sessions complétées aujourd\'hui',
+    // Planning
+    plan_week:'Planning hebdomadaire',
+    add_event:'+ Ajouter',
+    today_btn:"Aujourd\'hui",
+    // Stats
+    active_habits:'Habitudes actives', best_streak:'Meilleure série',
+    avg_rate:'Taux moyen (30j)', active_days:'Jours actifs (30j)',
+    line_title:'Taux de complétion — 30 derniers jours',
+    heatmap_title:'Calendrier d\'activité — 12 dernières semaines',
+    habit_bars_title:'Taux de réussite par habitude',
+    // Modals
+    new_habit:'Nouvelle habitude', edit_habit:'Modifier l\'habitude',
+    habit_name:'Nom de l\'habitude', habit_icon:'Emoji / Icône',
+    frequency:'Fréquence', daily:'Quotidienne', weekly:'Hebdomadaire (jours précis)',
+    monthly:'Mensuelle (jour précis)', month_day:'Jour du mois',
+    active_days_week:'Jours actifs (semaine)', pts_earn:'Points à gagner',
+    save:'Enregistrer', cancel:'Annuler',
+    new_task:'Nouvelle tâche', task_name:'Nom de la tâche',
+    due_date:'Date d\'échéance', priority:'Priorité',
+    prio_high:'🔴 Haute', prio_med:'🟡 Moyenne', prio_low:'🟢 Basse',
+    new_reward:'Nouvelle récompense', reward_name:'Nom de la récompense',
+    reward_desc:'Description', reward_cost:'Coût en points', add_btn:'Ajouter',
+    new_event:'Nouvel événement', edit_event:'Modifier l\'événement',
+    event_title:'Titre', event_emoji:'Emoji', event_day:'Jour',
+    mon:'Lundi',tue:'Mardi',wed:'Mercredi',thu:'Jeudi',fri:'Vendredi',sat:'Samedi',sun:'Dimanche',
+    start_time:'Heure début', end_time:'Heure fin', color:'Couleur',
+    recurrence:'Récurrence', once:'Une fois (cette semaine)', every_week:'Toutes les semaines',
+    delete:'Supprimer',
+    no_habits:'Aucune habitude. Ajoutez-en une !',
+    no_tasks:'Aucune tâche. Ajoutez-en une !',
+    no_rewards:'Ajoutez vos premières récompenses !',
+    no_habits_today:'Aucune habitude active aujourd\'hui',
+    no_tasks_today:'Aucune tâche pour aujourd\'hui',
+    streak_label:'🔥',
+    not_today:'Pas aujourd\'hui',
+    unlocked:'✓ Débloqué',
+    buy:'💎',
+    insufficient_pts:'Pas assez de points !',
+    score_label:'Score total', pts_label:'points accumulés',
+    daily_progress:'Progression du jour',
+    light_mode:'Mode clair', dark_mode:'Mode sombre',
+  },
+  en: {
+    logout: '← Log out',
+    overview:'Overview', habits:'Habits', tasks:'Tasks',
+    shop:'Rewards', stats:'Statistics', pomodoro:'Pomodoro', planning:'Planning',
+    habits_sub:'Track your daily, weekly and monthly routines',
+    tasks_sub:'Weekly view of your to-dos',
+    stats_sub:'Visualise your habit progress over time',
+    pom_sub:'Work in focused sessions',
+    plan_sub:'Click a slot to add an event',
+    shop_title:'Rewards', shop_sub:'Spend your points on custom rewards',
+    overview_title:'Hello 👋',
+    add_habit:'+ Add habit',
+    add_task:'+ New task',
+    add_reward:'+ Add reward',
+    pts_available:'points available',
+    today_progress:'Today\'s progress',
+    today_habits:'Today\'s habits', today_tasks:'Today\'s tasks',
+    see_all:'See all',
+    focus:'Focus', short_break:'Short break', long_break:'Long break',
+    start:'▶ Start', pause:'⏸ Pause', resume:'▶ Resume', reset:'↺', skip:'⏭',
+    sessions:'Sessions:',
+    today_label:'Today',
+    work_dur:'Focus', short_dur:'Short break', long_dur:'Long break',
+    durations:'Durations (minutes)',
+    task_link:'Linked task (optional)',
+    chrono_title:'Stopwatch',
+    lap:'⏱ Lap',
+    sessions_done:'Sessions completed today',
+    plan_week:'Weekly planning',
+    add_event:'+ Add',
+    today_btn:'Today',
+    active_habits:'Active habits', best_streak:'Best streak',
+    avg_rate:'Avg rate (30d)', active_days:'Active days (30d)',
+    line_title:'Completion rate — last 30 days',
+    heatmap_title:'Activity calendar — last 12 weeks',
+    habit_bars_title:'Success rate per habit',
+    new_habit:'New habit', edit_habit:'Edit habit',
+    habit_name:'Habit name', habit_icon:'Emoji / Icon',
+    frequency:'Frequency', daily:'Daily', weekly:'Weekly (specific days)',
+    monthly:'Monthly (specific day)', month_day:'Day of month',
+    active_days_week:'Active days (week)', pts_earn:'Points to earn',
+    save:'Save', cancel:'Cancel',
+    new_task:'New task', task_name:'Task name',
+    due_date:'Due date', priority:'Priority',
+    prio_high:'🔴 High', prio_med:'🟡 Medium', prio_low:'🟢 Low',
+    new_reward:'New reward', reward_name:'Reward name',
+    reward_desc:'Description', reward_cost:'Point cost', add_btn:'Add',
+    new_event:'New event', edit_event:'Edit event',
+    event_title:'Title', event_emoji:'Emoji', event_day:'Day',
+    mon:'Monday',tue:'Tuesday',wed:'Wednesday',thu:'Thursday',fri:'Friday',sat:'Saturday',sun:'Sunday',
+    start_time:'Start time', end_time:'End time', color:'Colour',
+    recurrence:'Recurrence', once:'Once (this week)', every_week:'Every week',
+    delete:'Delete',
+    no_habits:'No habits yet. Add one!',
+    no_tasks:'No tasks yet. Add one!',
+    no_rewards:'Add your first rewards!',
+    no_habits_today:'No active habits today',
+    no_tasks_today:'No tasks for today',
+    streak_label:'🔥',
+    not_today:'Not today',
+    unlocked:'✓ Unlocked',
+    buy:'💎',
+    insufficient_pts:'Not enough points!',
+    score_label:'Total score', pts_label:'points accumulated',
+    daily_progress:'Daily progress',
+    light_mode:'Light mode', dark_mode:'Dark mode',
+  },
+  es: {
+    logout: '← Cerrar sesión',
+    overview:'Resumen', habits:'Hábitos', tasks:'Tareas',
+    shop:'Recompensas', stats:'Estadísticas', pomodoro:'Pomodoro', planning:'Planificación',
+    habits_sub:'Sigue tus rutinas diarias, semanales y mensuales',
+    tasks_sub:'Vista semanal de tus tareas',
+    stats_sub:'Visualiza el progreso de tus hábitos en el tiempo',
+    pom_sub:'Trabaja en sesiones concentradas',
+    plan_sub:'Haz clic en un espacio para agregar un evento',
+    shop_title:'Recompensas', shop_sub:'Gasta tus puntos en recompensas personalizadas',
+    overview_title:'Hola 👋',
+    add_habit:'+ Agregar hábito',
+    add_task:'+ Nueva tarea',
+    add_reward:'+ Agregar recompensa',
+    pts_available:'puntos disponibles',
+    today_progress:'Progreso del día',
+    today_habits:'Hábitos de hoy', today_tasks:'Tareas de hoy',
+    see_all:'Ver todo',
+    focus:'Foco', short_break:'Descanso corto', long_break:'Descanso largo',
+    start:'▶ Iniciar', pause:'⏸ Pausar', resume:'▶ Reanudar', reset:'↺', skip:'⏭',
+    sessions:'Sesiones:',
+    today_label:'Hoy',
+    work_dur:'Foco', short_dur:'Descanso corto', long_dur:'Descanso largo',
+    durations:'Duraciones (minutos)',
+    task_link:'Tarea asociada (opcional)',
+    chrono_title:'Cronómetro',
+    lap:'⏱ Vuelta',
+    sessions_done:'Sesiones completadas hoy',
+    plan_week:'Planificación semanal',
+    add_event:'+ Agregar',
+    today_btn:'Hoy',
+    active_habits:'Hábitos activos', best_streak:'Mejor racha',
+    avg_rate:'Tasa promedio (30d)', active_days:'Días activos (30d)',
+    line_title:'Tasa de completado — últimos 30 días',
+    heatmap_title:'Calendario de actividad — últimas 12 semanas',
+    habit_bars_title:'Tasa de éxito por hábito',
+    new_habit:'Nuevo hábito', edit_habit:'Editar hábito',
+    habit_name:'Nombre del hábito', habit_icon:'Emoji / Icono',
+    frequency:'Frecuencia', daily:'Diario', weekly:'Semanal (días específicos)',
+    monthly:'Mensual (día específico)', month_day:'Día del mes',
+    active_days_week:'Días activos (semana)', pts_earn:'Puntos a ganar',
+    save:'Guardar', cancel:'Cancelar',
+    new_task:'Nueva tarea', task_name:'Nombre de la tarea',
+    due_date:'Fecha límite', priority:'Prioridad',
+    prio_high:'🔴 Alta', prio_med:'🟡 Media', prio_low:'🟢 Baja',
+    new_reward:'Nueva recompensa', reward_name:'Nombre de la recompensa',
+    reward_desc:'Descripción', reward_cost:'Coste en puntos', add_btn:'Agregar',
+    new_event:'Nuevo evento', edit_event:'Editar evento',
+    event_title:'Título', event_emoji:'Emoji', event_day:'Día',
+    mon:'Lunes',tue:'Martes',wed:'Miércoles',thu:'Jueves',fri:'Viernes',sat:'Sábado',sun:'Domingo',
+    start_time:'Hora inicio', end_time:'Hora fin', color:'Color',
+    recurrence:'Recurrencia', once:'Una vez (esta semana)', every_week:'Cada semana',
+    delete:'Eliminar',
+    no_habits:'Sin hábitos. ¡Agrega uno!',
+    no_tasks:'Sin tareas. ¡Agrega una!',
+    no_rewards:'¡Agrega tus primeras recompensas!',
+    no_habits_today:'Sin hábitos activos hoy',
+    no_tasks_today:'Sin tareas para hoy',
+    streak_label:'🔥', not_today:'No hoy', unlocked:'✓ Desbloqueado', buy:'💎',
+    insufficient_pts:'¡Puntos insuficientes!',
+    score_label:'Puntuación total', pts_label:'puntos acumulados',
+    daily_progress:'Progreso del día',
+    light_mode:'Modo claro', dark_mode:'Modo oscuro',
+  },
+  pt: {
+    logout: '← Sair',
+    overview:'Visão geral', habits:'Hábitos', tasks:'Tarefas',
+    shop:'Recompensas', stats:'Estatísticas', pomodoro:'Pomodoro', planning:'Planejamento',
+    habits_sub:'Acompanhe suas rotinas diárias, semanais e mensais',
+    tasks_sub:'Visão semanal das suas tarefas',
+    stats_sub:'Visualize o progresso dos seus hábitos ao longo do tempo',
+    pom_sub:'Trabalhe em sessões focadas',
+    plan_sub:'Clique em um horário para adicionar um evento',
+    shop_title:'Recompensas', shop_sub:'Gaste seus pontos em recompensas personalizadas',
+    overview_title:'Olá 👋',
+    add_habit:'+ Adicionar hábito',
+    add_task:'+ Nova tarefa',
+    add_reward:'+ Adicionar recompensa',
+    pts_available:'pontos disponíveis',
+    today_progress:'Progresso do dia',
+    today_habits:'Hábitos de hoje', today_tasks:'Tarefas de hoje',
+    see_all:'Ver tudo',
+    focus:'Foco', short_break:'Pausa curta', long_break:'Pausa longa',
+    start:'▶ Iniciar', pause:'⏸ Pausar', resume:'▶ Retomar', reset:'↺', skip:'⏭',
+    sessions:'Sessões:',
+    today_label:'Hoje',
+    work_dur:'Foco', short_dur:'Pausa curta', long_dur:'Pausa longa',
+    durations:'Durações (minutos)',
+    task_link:'Tarefa vinculada (opcional)',
+    chrono_title:'Cronômetro',
+    lap:'⏱ Volta',
+    sessions_done:'Sessões concluídas hoje',
+    plan_week:'Planejamento semanal',
+    add_event:'+ Adicionar',
+    today_btn:'Hoje',
+    active_habits:'Hábitos ativos', best_streak:'Melhor sequência',
+    avg_rate:'Taxa média (30d)', active_days:'Dias ativos (30d)',
+    line_title:'Taxa de conclusão — últimos 30 dias',
+    heatmap_title:'Calendário de atividade — últimas 12 semanas',
+    habit_bars_title:'Taxa de sucesso por hábito',
+    new_habit:'Novo hábito', edit_habit:'Editar hábito',
+    habit_name:'Nome do hábito', habit_icon:'Emoji / Ícone',
+    frequency:'Frequência', daily:'Diário', weekly:'Semanal (dias específicos)',
+    monthly:'Mensal (dia específico)', month_day:'Dia do mês',
+    active_days_week:'Dias ativos (semana)', pts_earn:'Pontos a ganhar',
+    save:'Salvar', cancel:'Cancelar',
+    new_task:'Nova tarefa', task_name:'Nome da tarefa',
+    due_date:'Data limite', priority:'Prioridade',
+    prio_high:'🔴 Alta', prio_med:'🟡 Média', prio_low:'🟢 Baixa',
+    new_reward:'Nova recompensa', reward_name:'Nome da recompensa',
+    reward_desc:'Descrição', reward_cost:'Custo em pontos', add_btn:'Adicionar',
+    new_event:'Novo evento', edit_event:'Editar evento',
+    event_title:'Título', event_emoji:'Emoji', event_day:'Dia',
+    mon:'Segunda',tue:'Terça',wed:'Quarta',thu:'Quinta',fri:'Sexta',sat:'Sábado',sun:'Domingo',
+    start_time:'Hora início', end_time:'Hora fim', color:'Cor',
+    recurrence:'Recorrência', once:'Uma vez (esta semana)', every_week:'Toda semana',
+    delete:'Excluir',
+    no_habits:'Sem hábitos. Adicione um!',
+    no_tasks:'Sem tarefas. Adicione uma!',
+    no_rewards:'Adicione suas primeiras recompensas!',
+    no_habits_today:'Sem hábitos ativos hoje',
+    no_tasks_today:'Sem tarefas para hoje',
+    streak_label:'🔥', not_today:'Não hoje', unlocked:'✓ Desbloqueado', buy:'💎',
+    insufficient_pts:'Pontos insuficientes!',
+    score_label:'Pontuação total', pts_label:'pontos acumulados',
+    daily_progress:'Progresso do dia',
+    light_mode:'Modo claro', dark_mode:'Modo escuro',
+  }
+};
+
+const APP_LANG_META = {
+  fr: { flag:'🇫🇷', label:'FR' },
+  en: { flag:'🇬🇧', label:'EN' },
+  es: { flag:'🇪🇸', label:'ES' },
+  pt: { flag:'🇧🇷', label:'PT' }
+};
+
+let appLang = localStorage.getItem('flow_lang') || 'fr';
+
+function ta(key) {
+  return APP_TRANSLATIONS[appLang]?.[key] ?? APP_TRANSLATIONS['fr'][key] ?? key;
+}
+
+function applyAppTranslations() {
+  // Topbar
+  const logoutLabel = document.getElementById('logout-label');
+  if (logoutLabel) logoutLabel.textContent = ta('logout');
+  // Update lang btn
+  const meta = APP_LANG_META[appLang];
+  const flag = document.getElementById('appLangFlag');
+  const label = document.getElementById('appLangLabel');
+  if (flag) flag.textContent = meta.flag;
+  if (label) label.textContent = meta.label;
+  // Active class
+  document.querySelectorAll('.app-lang-option').forEach(o => {
+    o.classList.toggle('active', o.getAttribute('data-lang') === appLang);
+  });
+  // Nav items
+  const navLabels = ['overview','habits','tasks','shop','stats','pomodoro','planning'];
+  navLabels.forEach(page => {
+    document.querySelectorAll(`.nav-item`).forEach(ni => {
+      if (ni.getAttribute('onclick')?.includes("'"+page+"'")) {
+        const spanEl = ni.querySelector('span:last-child');
+        if (spanEl) spanEl.textContent = ta(page);
+      }
+    });
+  });
+  // Theme toggle label
+  const themeToggleSpan = document.querySelector('.theme-toggle span:last-child');
+  if (themeToggleSpan) {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeToggleSpan.textContent = isDark ? ta('light_mode') : ta('dark_mode');
+  }
+  // html lang
+  document.documentElement.lang = appLang;
+  // Re-render to apply translated strings in dynamic content
+  if (typeof updateAll === 'function') updateAll();
+}
+
+window.setAppLang = function(lang) {
+  appLang = lang;
+  localStorage.setItem('flow_lang', lang);
+  applyAppTranslations();
+  toggleAppLangDropdown(); // close
+};
+
+window.toggleAppLangDropdown = function() {
+  document.getElementById('appLangDropdown')?.classList.toggle('open');
+};
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#appLangPicker')) {
+    document.getElementById('appLangDropdown')?.classList.remove('open');
+  }
+});
+
+// ── Mobile sidebar ────────────────────────────────────────────
+window.toggleSidebar = function() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+};
+window.closeSidebar = function() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+};
+// Close sidebar when a nav item is clicked on mobile
+document.querySelectorAll('.nav-item').forEach(ni => {
+  ni.addEventListener('click', () => {
+    if (window.innerWidth <= 600) closeSidebar();
+  });
+});
+
+
 // ==================== INIT ====================
 function init() {
   const today = new Date();
@@ -2308,6 +2776,7 @@ function init() {
 }
 
 init();
+applyAppTranslations();
 
 window.addEventListener('resize', () => { renderStats(); renderPlanning(); });
 
