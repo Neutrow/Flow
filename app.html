@@ -815,13 +815,13 @@
     <!-- OVERVIEW PAGE -->
     <div class="page active" id="page-overview">
       <div class="page-header">
-        <div class="page-title">Bonjour 👋</div>
+        <div class="page-title" id="tx-overview-title">Bonjour 👋</div>
         <div class="page-sub" id="todayDate"></div>
       </div>
 
       <div class="overview-grid">
         <div class="big-progress-card">
-          <div class="card-title">Progression du jour</div>
+          <div class="card-title" id="tx-daily-progress">Progression du jour</div>
           <div style="display:flex;gap:24px;align-items:center;">
             <div class="ring-container">
               <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
@@ -832,11 +832,11 @@
             </div>
             <div style="flex:1;">
               <div style="margin-bottom:12px;">
-                <div class="progress-header"><span class="progress-label">Habitudes</span><span class="progress-pct" id="habPctDisplay">0%</span></div>
+                <div class="progress-header"><span class="progress-label" id="tx-label-habits">Habitudes</span><span class="progress-pct" id="habPctDisplay">0%</span></div>
                 <div class="progress-bar"><div class="progress-fill" id="habProgressBar" style="width:0%"></div></div>
               </div>
               <div>
-                <div class="progress-header"><span class="progress-label">Tâches du jour</span><span class="progress-pct" id="taskPctDisplay">0%</span></div>
+                <div class="progress-header"><span class="progress-label" id="tx-label-tasks-today">Tâches du jour</span><span class="progress-pct" id="taskPctDisplay">0%</span></div>
                 <div class="progress-bar"><div class="progress-fill" id="taskProgressBar" style="width:0%"></div></div>
               </div>
             </div>
@@ -844,17 +844,17 @@
         </div>
 
         <div class="daily-score-card">
-          <div class="daily-score-label">Score total</div>
+          <div class="daily-score-label" id="tx-score-label">Score total</div>
           <div class="daily-score-value" id="overviewPoints">0</div>
-          <div class="daily-score-pts">points accumulés</div>
+          <div class="daily-score-pts" id="tx-pts-label">points accumulés</div>
         </div>
       </div>
 
       <!-- Today's habits snapshot -->
       <div class="card" style="margin-bottom:16px;">
         <div class="section-header">
-          <div class="card-title" style="margin:0;">Habitudes du jour</div>
-          <button class="btn btn-ghost btn-sm" onclick="goto('habits')">Voir tout</button>
+          <div class="card-title" style="margin:0;" id="tx-habits-today">Habitudes du jour</div>
+          <button class="btn btn-ghost btn-sm" id="tx-see-habits" onclick="goto('habits')">Voir tout</button>
         </div>
         <div id="overviewHabits"></div>
       </div>
@@ -862,8 +862,8 @@
       <!-- Today's tasks snapshot -->
       <div class="card">
         <div class="section-header">
-          <div class="card-title" style="margin:0;">Tâches du jour</div>
-          <button class="btn btn-ghost btn-sm" onclick="goto('tasks')">Voir tout</button>
+          <div class="card-title" style="margin:0;" id="tx-tasks-today">Tâches du jour</div>
+          <button class="btn btn-ghost btn-sm" id="tx-see-tasks" onclick="goto('tasks')">Voir tout</button>
         </div>
         <div id="overviewTasks"></div>
       </div>
@@ -872,39 +872,39 @@
     <!-- HABITS PAGE -->
     <div class="page" id="page-habits">
       <div class="page-header">
-        <div class="page-title">Habitudes</div>
-        <div class="page-sub">Suivez vos routines quotidiennes, hebdomadaires et mensuelles</div>
+        <div class="page-title" id="tx-habits-title">Habitudes</div>
+        <div class="page-sub" id="tx-habits-sub">Suivez vos routines quotidiennes, hebdomadaires et mensuelles</div>
       </div>
 
       <div style="margin-bottom:16px;" class="inner-tabs">
-        <div class="inner-tab active" onclick="filterHabits('all',this)">Toutes</div>
-        <div class="inner-tab" onclick="filterHabits('daily',this)">Quotidiennes</div>
-        <div class="inner-tab" onclick="filterHabits('weekly',this)">Hebdomadaires</div>
-        <div class="inner-tab" onclick="filterHabits('monthly',this)">Mensuelles</div>
+        <div class="inner-tab active" id="tx-tab-all" onclick="filterHabits('all',this)">Toutes</div>
+        <div class="inner-tab" id="tx-tab-daily" onclick="filterHabits('daily',this)">Quotidiennes</div>
+        <div class="inner-tab" id="tx-tab-weekly" onclick="filterHabits('weekly',this)">Hebdomadaires</div>
+        <div class="inner-tab" id="tx-tab-monthly" onclick="filterHabits('monthly',this)">Mensuelles</div>
       </div>
 
       <div id="habitsList"></div>
 
       <button class="add-btn" onclick="openHabitModal()">
-        + Ajouter une habitude
+        <span id="tx-add-habit">+ Ajouter une habitude</span>
       </button>
     </div>
 
     <!-- TASKS PAGE -->
     <div class="page" id="page-tasks">
       <div class="page-header">
-        <div class="page-title">Tâches</div>
-        <div class="page-sub">Vision hebdomadaire de vos to-dos</div>
+        <div class="page-title" id="tx-tasks-title">Tâches</div>
+        <div class="page-sub" id="tx-tasks-sub">Vision hebdomadaire de vos to-dos</div>
       </div>
 
       <div class="card" style="margin-bottom:16px;">
-        <div class="card-title">Cette semaine</div>
+        <div class="card-title" id="tx-this-week">Cette semaine</div>
         <div class="week-grid" id="weekGrid"></div>
       </div>
 
       <div class="section-header">
-        <div class="section-title">Toutes les tâches</div>
-        <button class="btn btn-primary btn-sm" onclick="openTaskModal()">+ Nouvelle tâche</button>
+        <div class="section-title" id="tx-all-tasks">Toutes les tâches</div>
+        <button class="btn btn-primary btn-sm" id="tx-new-task" onclick="openTaskModal()">+ Nouvelle tâche</button>
       </div>
       <div id="tasksList"></div>
     </div>
@@ -912,12 +912,12 @@
     <!-- SHOP PAGE -->
     <div class="page" id="page-shop">
       <div class="page-header">
-        <div class="page-title">Boutique</div>
-        <div class="page-sub">Dépensez vos points sur des récompenses personnalisables</div>
+        <div class="page-title" id="tx-shop-title">Boutique</div>
+        <div class="page-sub" id="tx-shop-sub">Dépensez vos points sur des récompenses personnalisables</div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <div style="font-size:15px;font-weight:700;color:var(--indigo-light);">💎 <span id="shopPoints">0</span> points disponibles</div>
-        <button class="btn btn-ghost btn-sm" onclick="openShopItemModal()">+ Ajouter récompense</button>
+        <div style="font-size:15px;font-weight:700;color:var(--indigo-light);">💎 <span id="shopPoints">0</span> <span id="tx-pts-available">points disponibles</span></div>
+        <button class="btn btn-ghost btn-sm" id="tx-add-reward" onclick="openShopItemModal()">+ Ajouter récompense</button>
       </div>
       <div class="shop-grid" id="shopGrid"></div>
     </div>
@@ -925,8 +925,8 @@
     <!-- STATS PAGE -->
     <div class="page" id="page-stats">
       <div class="page-header">
-        <div class="page-title">Statistiques</div>
-        <div class="page-sub">Visualisez la progression de vos habitudes dans le temps</div>
+        <div class="page-title" id="tx-stats-title">Statistiques</div>
+        <div class="page-sub" id="tx-stats-sub">Visualisez la progression de vos habitudes dans le temps</div>
       </div>
 
       <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
@@ -939,21 +939,21 @@
       <!-- Courbe 30 jours -->
       <div class="card" style="margin-bottom:16px;">
         <div class="section-header" style="margin-bottom:16px;">
-          <div class="card-title" style="margin:0;">Taux de complétion — 30 derniers jours</div>
-          <div style="font-size:11px;color:var(--text3);">% habitudes complétées / jour</div>
+          <div class="card-title" style="margin:0;" id="tx-completion-chart">Taux de complétion — 30 derniers jours</div>
+          <div style="font-size:11px;color:var(--text3);" id="tx-chart-sub">% habitudes complétées / jour</div>
         </div>
         <canvas id="lineChart" height="120" style="width:100%;display:block;"></canvas>
       </div>
 
       <!-- Heatmap calendrier -->
       <div class="card" style="margin-bottom:16px;">
-        <div class="card-title">Calendrier d'activité — 12 dernières semaines</div>
+        <div class="card-title" id="tx-heatmap-title">Calendrier d’activité — 12 dernières semaines</div>
         <div id="heatmap" style="overflow-x:auto;padding-bottom:4px;"></div>
       </div>
 
       <!-- Barres par habitude -->
       <div class="card">
-        <div class="card-title">Taux de réussite par habitude</div>
+        <div class="card-title" id="tx-habit-bars-title">Taux de réussite par habitude</div>
         <div id="habitBars"></div>
       </div>
     </div>
@@ -961,8 +961,8 @@
     <!-- POMODORO PAGE -->
     <div class="page" id="page-pomodoro">
       <div class="page-header">
-        <div class="page-title">Pomodoro</div>
-        <div class="page-sub">Travaillez en sessions concentrées</div>
+        <div class="page-title" id="tx-pom-title">Pomodoro</div>
+        <div class="page-sub" id="tx-pom-sub">Travaillez en sessions concentrées</div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;">
@@ -970,9 +970,9 @@
         <div class="card" style="text-align:center;padding:36px 24px;">
           <!-- Mode tabs -->
           <div class="inner-tabs" style="margin-bottom:28px;justify-content:center;">
-            <div class="inner-tab active" id="pomTabWork" onclick="setPomMode('work',this)">Focus</div>
-            <div class="inner-tab" id="pomTabShort" onclick="setPomMode('short',this)">Pause courte</div>
-            <div class="inner-tab" id="pomTabLong" onclick="setPomMode('long',this)">Pause longue</div>
+            <div class="inner-tab active" id="pomTabWork" onclick="setPomMode('work',this)" data-mode="work">Focus</div>
+            <div class="inner-tab" id="pomTabShort" onclick="setPomMode('short',this)" data-mode="short">Pause courte</div>
+            <div class="inner-tab" id="pomTabLong" onclick="setPomMode('long',this)" data-mode="long">Pause longue</div>
           </div>
 
           <!-- Ring timer -->
@@ -997,7 +997,7 @@
 
           <!-- Session count -->
           <div style="margin-top:20px;display:flex;gap:8px;justify-content:center;align-items:center;">
-            <span style="font-size:12px;color:var(--text3);">Sessions :</span>
+            <span style="font-size:12px;color:var(--text3);" id="tx-sessions-label">Sessions :</span>
             <div id="pomDots" style="display:flex;gap:5px;"></div>
           </div>
         </div>
@@ -1006,7 +1006,7 @@
         <div style="display:flex;flex-direction:column;gap:16px;">
           <!-- Durées personnalisables -->
           <div class="card">
-            <div class="card-title">Durées (minutes)</div>
+            <div class="card-title" id="tx-durations-title">Durées (minutes)</div>
             <div style="display:flex;flex-direction:column;gap:10px;">
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <span style="font-size:13px;font-weight:500;">Focus</span>
@@ -1037,7 +1037,7 @@
 
           <!-- Stats session -->
           <div class="card">
-            <div class="card-title">Aujourd'hui</div>
+            <div class="card-title" id="tx-today-pom">Aujourd’hui</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
               <div style="background:var(--bg3);border-radius:12px;padding:14px;text-align:center;">
                 <div id="pomStatSessions" style="font-size:26px;font-weight:800;color:var(--indigo-light);">0</div>
@@ -1052,7 +1052,7 @@
 
           <!-- Tâche en cours -->
           <div class="card">
-            <div class="card-title">Tâche associée (optionnel)</div>
+            <div class="card-title" id="tx-linked-task">Tâche associée (optionnel)</div>
             <select class="form-select" id="pomTaskSelect" style="font-size:13px;">
               <option value="">— Aucune tâche —</option>
             </select>
@@ -1060,7 +1060,7 @@
 
           <!-- Chronomètre -->
           <div class="card" style="text-align:center;">
-            <div class="card-title" style="text-align:left;">Chronomètre</div>
+            <div class="card-title" style="text-align:left;" id="tx-chrono-title">Chronomètre</div>
             <div class="chrono-display" id="chronoDisplay">00:00.0</div>
             <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;">
               <button class="btn btn-ghost btn-sm" onclick="chronoReset()">↺</button>
@@ -1076,8 +1076,8 @@
     <!-- PLANNING PAGE -->
     <div class="page" id="page-planning">
       <div class="page-header">
-        <div class="page-title">Planning hebdomadaire</div>
-        <div class="page-sub">Cliquez sur un créneau pour ajouter un événement</div>
+        <div class="page-title" id="tx-plan-title">Planning hebdomadaire</div>
+        <div class="page-sub" id="tx-plan-sub">Cliquez sur un créneau pour ajouter un événement</div>
       </div>
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -1085,9 +1085,9 @@
           <button class="btn btn-ghost btn-sm" onclick="planNavWeek(-1)">←</button>
           <span id="planWeekLabel" style="font-size:14px;font-weight:700;min-width:160px;text-align:center;"></span>
           <button class="btn btn-ghost btn-sm" onclick="planNavWeek(1)">→</button>
-          <button class="btn btn-ghost btn-sm" onclick="planGoToday()">Aujourd'hui</button>
+          <button class="btn btn-ghost btn-sm" id="tx-today-btn" onclick="planGoToday()">Aujourd’hui</button>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="openPlanModal()">+ Ajouter</button>
+        <button class="btn btn-primary btn-sm" id="tx-add-event" onclick="openPlanModal()">+ Ajouter</button>
       </div>
 
       <div style="overflow-x:auto;">
@@ -1307,9 +1307,12 @@ function toggleTheme() {
 }
 
 // ==================== DATE HELPERS ====================
-const DAY_NAMES = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-const DAY_NAMES_FULL = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-const MONTH_NAMES = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAY_NAMES_BASE = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+let DAY_NAMES = DAY_NAMES_BASE;
+const DAY_NAMES_FULL_BASE = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+let DAY_NAMES_FULL = DAY_NAMES_FULL_BASE;
+const MONTH_NAMES_BASE = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+let MONTH_NAMES = MONTH_NAMES_BASE;
 
 function todayKey() {
   return new Date().toISOString().split('T')[0];
@@ -1586,14 +1589,14 @@ function renderHabits() {
   let habits = state.habits;
   if (habitFilter !== 'all') habits = habits.filter(h => h.freq === habitFilter);
   if (!habits.length) {
-    container.innerHTML = '<div class="empty-state">Aucune habitude. Ajoutez-en une !</div>';
+    container.innerHTML = '<div class="empty-state">' + ta('no_habits') + '</div>';
     return;
   }
   container.innerHTML = habits.map(h => {
     const done = isHabitDoneToday(h.id);
     const activeToday = isHabitActiveToday(h);
     const tagClass = h.freq === 'daily' ? 'tag-daily' : h.freq === 'weekly' ? 'tag-weekly' : 'tag-monthly';
-    const tagLabel = h.freq === 'daily' ? 'Quotidien' : h.freq === 'weekly' ? 'Hebdo' : 'Mensuel';
+    const tagLabel = h.freq === 'daily' ? ta('tag_daily') : h.freq === 'weekly' ? ta('tag_weekly') : ta('tag_monthly');
     const daysHtml = h.freq === 'weekly' ? `<div class="habit-days">
       ${['L','M','Me','J','V','S','D'].map((d,i) => `<div class="day-dot ${h.days.includes(i)?'active':''}">${d}</div>`).join('')}
     </div>` : '';
@@ -1606,7 +1609,7 @@ function renderHabits() {
         <div style="display:flex;align-items:center;gap:8px;margin-top:3px;">
           <span class="tag ${tagClass}">${tagLabel}</span>
           ${h.streak > 0 ? `<span class="habit-streak">🔥 ${h.streak}</span>` : ''}
-          ${!activeToday && h.freq === 'weekly' ? '<span style="font-size:11px;color:var(--text3);">Pas aujourd\'hui</span>' : ''}
+          ${!activeToday && h.freq === 'weekly' ? '<span style="font-size:11px;color:var(--text3);">' + ta('not_today') + '</span>' : ''}
         </div>
         ${daysHtml}
       </div>
@@ -1623,17 +1626,17 @@ function renderTasks() {
   const today = todayKey();
   const container = document.getElementById('tasksList');
   if (!state.tasks.length) {
-    container.innerHTML = '<div class="empty-state">Aucune tâche. Ajoutez-en une !</div>';
+    container.innerHTML = '<div class="empty-state">' + ta('no_tasks') + '</div>';
     return;
   }
   const sorted = [...state.tasks].sort((a, b) => a.due > b.due ? 1 : -1);
   container.innerHTML = sorted.map(t => {
     const done = isTaskDoneToday(t.id);
     const prioClass = `prio-${t.priority}`;
-    const prioLabel = t.priority === 'high' ? '🔴 Haute' : t.priority === 'med' ? '🟡 Moyenne' : '🟢 Basse';
+    const prioLabel = t.priority === 'high' ? ta('prio_high') : t.priority === 'med' ? ta('prio_med') : ta('prio_low');
     const isToday = t.due === today;
     const d = new Date(t.due + 'T12:00:00');
-    const dateLabel = isToday ? 'Aujourd\'hui' : `${DAY_NAMES_FULL[d.getDay()]} ${d.getDate()} ${MONTH_NAMES[d.getMonth()]}`;
+    const dateLabel = isToday ? ta('today_label') : `${DAY_NAMES_FULL[d.getDay()]} ${d.getDate()} ${MONTH_NAMES[d.getMonth()]}`;
     return `
     <div class="task-item ${done ? 'done' : ''}" onclick="toggleTask('${t.id}')">
       <div class="task-checkbox">${done ? '✓' : ''}</div>
@@ -1676,7 +1679,7 @@ function renderWeekGrid() {
 function renderShop() {
   const grid = document.getElementById('shopGrid');
   if (!state.shopItems.length) {
-    grid.innerHTML = '<div class="empty-state" style="grid-column:span 3;">Ajoutez vos premières récompenses !</div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:span 3;">' + ta('no_rewards') + '</div>';
     return;
   }
   grid.innerHTML = state.shopItems.map(item => `
@@ -1685,7 +1688,7 @@ function renderShop() {
     <div class="shop-name">${item.name}</div>
     <div class="shop-desc">${item.desc}</div>
     ${item.unlocked 
-      ? '<div class="shop-unlocked-badge">✓ Débloqué</div>' 
+      ? '<div class="shop-unlocked-badge">✓ ' + ta('unlocked_label') + '</div>' 
       : `<div class="shop-cost">💎 ${item.cost} pts</div>`}
     <button class="del-btn" style="position:absolute;top:8px;right:8px;" onclick="event.stopPropagation();deleteShopItem('${item.id}')">✕</button>
   </div>`).join('');
@@ -1718,7 +1721,7 @@ function renderOverview() {
   // Overview habit list
   const habContainer = document.getElementById('overviewHabits');
   if (!todayHabits.length) {
-    habContainer.innerHTML = '<div class="empty-state">Aucune habitude active aujourd\'hui</div>';
+    habContainer.innerHTML = '<div class="empty-state">' + ta('no_habits_today') + '</div>';
   } else {
     habContainer.innerHTML = todayHabits.map(h => {
       const done = c.habits.includes(h.id);
@@ -1734,7 +1737,7 @@ function renderOverview() {
   // Overview task list
   const taskContainer = document.getElementById('overviewTasks');
   if (!todayTasks.length) {
-    taskContainer.innerHTML = '<div class="empty-state">Aucune tâche pour aujourd\'hui</div>';
+    taskContainer.innerHTML = '<div class="empty-state">' + ta('no_tasks_today') + '</div>';
   } else {
     taskContainer.innerHTML = todayTasks.map(t => {
       const done = c.tasks.includes(t.id);
@@ -1795,10 +1798,10 @@ function renderStats() {
   const avgRate = daysWithData.length ? Math.round(daysWithData.reduce((s, d) => s + d.pct, 0) / daysWithData.length) : 0;
   const activeDays = history30.filter(d => d.done > 0).length;
 
-  document.getElementById('statTotalHabits').innerHTML = `<div class="smc-icon">⊛</div><div class="smc-value">${totalHabits}</div><div class="smc-label">Habitudes actives</div>`;
-  document.getElementById('statBestStreak').innerHTML = `<div class="smc-icon">🔥</div><div class="smc-value">${bestStreak}</div><div class="smc-label">Meilleure série</div>`;
-  document.getElementById('statCompletionRate').innerHTML = `<div class="smc-icon">◉</div><div class="smc-value">${avgRate}%</div><div class="smc-label">Taux moyen (30j)</div>`;
-  document.getElementById('statActiveDays').innerHTML = `<div class="smc-icon">◈</div><div class="smc-value">${activeDays}</div><div class="smc-label">Jours actifs (30j)</div>`;
+  document.getElementById('statTotalHabits').innerHTML = `<div class="smc-icon">⧛</div><div class="smc-value">${totalHabits}</div><div class="smc-label">${ta('active_habits')}</div>`;
+  document.getElementById('statBestStreak').innerHTML = `<div class="smc-icon">🔥</div><div class="smc-value">${bestStreak}</div><div class="smc-label">${ta('best_streak')}</div>`;
+  document.getElementById('statCompletionRate').innerHTML = `<div class="smc-icon">◉</div><div class="smc-value">${avgRate}%</div><div class="smc-label">${ta('avg_rate')}</div>`;
+  document.getElementById('statActiveDays').innerHTML = `<div class="smc-icon">◈</div><div class="smc-value">${activeDays}</div><div class="smc-label">${ta('active_days')}</div>`;
 
   drawLineChart(history30);
   drawHeatmap(history84);
@@ -2098,14 +2101,14 @@ function pomComplete() {
     setPomMode('work', document.getElementById('pomTabWork'));
   }
   updatePomDots();
-  document.getElementById('pomPlayBtn').textContent = '▶ Démarrer';
+  document.getElementById('pomPlayBtn').textContent = '▶ ' + ta('pom_start');
 }
 
 function pomReset() {
   clearInterval(pomState.interval);
   pomState.running = false;
   pomState.secondsLeft = pomState.totalSeconds;
-  document.getElementById('pomPlayBtn').textContent = '▶ Démarrer';
+  document.getElementById('pomPlayBtn').textContent = '▶ ' + ta('pom_start');
   updatePomDisplay();
   updatePomRing();
 }
@@ -2120,7 +2123,7 @@ function updatePomDisplay() {
   const m = Math.floor(pomState.secondsLeft / 60);
   const s = pomState.secondsLeft % 60;
   document.getElementById('pomTime').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  const labels = { work: 'Focus', short: 'Pause courte', long: 'Pause longue' };
+  const labels = { work: ta('focus'), short: ta('short_break'), long: ta('long_break') };
   document.getElementById('pomLabel').textContent = labels[pomState.mode];
   // Ring color per mode
   const colors = { work: '#5B5BD6', short: '#34D399', long: '#FBBF24' };
@@ -2688,38 +2691,111 @@ function ta(key) {
 }
 
 function applyAppTranslations() {
+  // html lang attribute
+  document.documentElement.lang = appLang;
+
   // Topbar
   const logoutLabel = document.getElementById('logout-label');
   if (logoutLabel) logoutLabel.textContent = ta('logout');
-  // Update lang btn
+
+  // Lang picker UI
   const meta = APP_LANG_META[appLang];
   const flag = document.getElementById('appLangFlag');
   const label = document.getElementById('appLangLabel');
   if (flag) flag.textContent = meta.flag;
   if (label) label.textContent = meta.label;
-  // Active class
   document.querySelectorAll('.app-lang-option').forEach(o => {
     o.classList.toggle('active', o.getAttribute('data-lang') === appLang);
   });
-  // Nav items
-  const navLabels = ['overview','habits','tasks','shop','stats','pomodoro','planning'];
-  navLabels.forEach(page => {
-    document.querySelectorAll(`.nav-item`).forEach(ni => {
-      if (ni.getAttribute('onclick')?.includes("'"+page+"'")) {
+
+  // Sidebar nav labels
+  const navMap = {overview:'overview',habits:'habits',tasks:'tasks',shop:'shop',stats:'stats',pomodoro:'pomodoro',planning:'planning'};
+  Object.keys(navMap).forEach(page => {
+    document.querySelectorAll('.nav-item').forEach(ni => {
+      if (ni.getAttribute('onclick')?.includes("'" + page + "'")) {
         const spanEl = ni.querySelector('span:last-child');
         if (spanEl) spanEl.textContent = ta(page);
       }
     });
   });
+
   // Theme toggle label
   const themeToggleSpan = document.querySelector('.theme-toggle span:last-child');
   if (themeToggleSpan) {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     themeToggleSpan.textContent = isDark ? ta('light_mode') : ta('dark_mode');
   }
-  // html lang
-  document.documentElement.lang = appLang;
-  // Re-render to apply translated strings in dynamic content
+
+  // Helper: set textContent by ID (safe if element absent)
+  const st = (id, key) => { const el = document.getElementById(id); if (el) el.textContent = ta(key); };
+  const sh = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+  // ── Overview ──────────────────────────────────────────────
+  st('tx-overview-title', 'overview_title');
+  st('tx-daily-progress', 'daily_progress');
+  st('tx-label-habits', 'label_habits');
+  st('tx-label-tasks-today', 'label_tasks_today');
+  st('tx-score-label', 'score_label');
+  st('tx-pts-label', 'pts_label');
+  st('tx-habits-today', 'habits_today');
+  st('tx-tasks-today', 'tasks_today');
+  st('tx-see-habits', 'see_all');
+  st('tx-see-tasks', 'see_all');
+
+  // ── Habits ────────────────────────────────────────────────
+  st('tx-habits-title', 'habits');
+  st('tx-habits-sub', 'habits_sub');
+  st('tx-tab-all', 'tab_all');
+  st('tx-tab-daily', 'tab_daily');
+  st('tx-tab-weekly', 'tab_weekly');
+  st('tx-tab-monthly', 'tab_monthly');
+  st('tx-add-habit', 'add_habit');
+
+  // ── Tasks ─────────────────────────────────────────────────
+  st('tx-tasks-title', 'tasks');
+  st('tx-tasks-sub', 'tasks_sub');
+  st('tx-this-week', 'this_week');
+  st('tx-all-tasks', 'all_tasks');
+  st('tx-new-task', 'new_task');
+
+  // ── Shop ──────────────────────────────────────────────────
+  st('tx-shop-title', 'shop');
+  st('tx-shop-sub', 'shop_sub');
+  st('tx-add-reward', 'add_reward');
+  st('tx-pts-available', 'pts_available');
+
+  // ── Stats ─────────────────────────────────────────────────
+  st('tx-stats-title', 'stats');
+  st('tx-stats-sub', 'stats_sub');
+  st('tx-completion-chart', 'completion_chart');
+  st('tx-chart-sub', 'chart_sub');
+  st('tx-heatmap-title', 'heatmap_title');
+  st('tx-habit-bars-title', 'habit_bars_title');
+
+  // ── Pomodoro ──────────────────────────────────────────────
+  st('tx-pom-title', 'pomodoro');
+  st('tx-pom-sub', 'pom_sub');
+  st('pomTabWork', 'focus');
+  st('pomTabShort', 'short_break');
+  st('pomTabLong', 'long_break');
+  st('tx-sessions-label', 'sessions_label');
+  st('tx-durations-title', 'durations_title');
+  st('tx-today-pom', 'today_label');
+  st('tx-linked-task', 'linked_task');
+  st('tx-chrono-title', 'chrono_title');
+
+  // ── Planning ──────────────────────────────────────────────
+  st('tx-plan-title', 'planning');
+  st('tx-plan-sub', 'plan_sub');
+  st('tx-today-btn', 'today_label');
+  st('tx-add-event', 'add_event');
+
+  // ── Update date/day arrays ────────────────────────────────
+  DAY_NAMES = ta('day_names_short').split(',');
+  DAY_NAMES_FULL = ta('day_names_full').split(',');
+  MONTH_NAMES = ta('month_names').split(',');
+
+  // ── Re-render dynamic content with new language ──────────
   if (typeof updateAll === 'function') updateAll();
 }
 
@@ -2787,65 +2863,162 @@ window.addEventListener('resize', () => { renderStats(); renderPlanning(); });
 </script>
 
 <script type="module">
+  // ══════════════════════════════════════════════════════════════
+  //  SUPABASE — Auth guard + Cloud sync
+  //  Data is stored in Supabase table "user_data" (jsonb column).
+  //  Falls back to localStorage if Supabase is unreachable.
+  //  Table SQL to run once in Supabase SQL editor:
+  //
+  //  create table if not exists public.user_data (
+  //    id uuid primary key references auth.users(id) on delete cascade,
+  //    data jsonb not null default '{}',
+  //    updated_at timestamptz default now()
+  //  );
+  //  alter table public.user_data enable row level security;
+  //  create policy "Users manage own data" on public.user_data
+  //    for all using (auth.uid() = id) with check (auth.uid() = id);
+  // ══════════════════════════════════════════════════════════════
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
   const SUPABASE_URL = 'https://kawltcvazlzkiacdbdka.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_g-FoawX8KXLqSTpRmHH_Rg_uvMNq6Lg';
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // ── Vérification de session au chargement ──────────────────────
-  const { data: { session } } = await supabase.auth.getSession();
-
+  // ── Auth check ─────────────────────────────────────────────────
+  const { data: { session } } = await sb.auth.getSession();
   if (!session) {
-    // Pas connecté → retour à la landing page
     window.location.replace('index.html');
-  } else {
-    // Afficher l'email dans la topbar
-    const emailEl = document.getElementById('user-email');
-    if (emailEl) emailEl.textContent = session.user.email;
-
-    // Stocker la clé localStorage propre à l'utilisateur
-    // (chaque utilisateur a ses propres données)
-    const userId = session.user.id;
-    const storageKey = 'flow_state_' + userId;
-    const savedState = localStorage.getItem(storageKey);
-    if (savedState) {
-      try {
-        const parsed = JSON.parse(savedState);
-        Object.assign(state, parsed);
-        if (!state.planEvents)  state.planEvents  = [];
-        if (!state.shopItems)   state.shopItems   = [];
-        if (!state.completions) state.completions = {};
-        updateAll();
-        initPomodoro();
-      } catch(e) { console.warn('Erreur parsing state:', e); }
-    }
-
-    // Surcharger la fonction save() pour utiliser la clé utilisateur
-    const originalSave = window.save;
-    window.save = function() {
-      localStorage.setItem(storageKey, JSON.stringify(state));
-      updateAll();
-    };
-    // Patch save en remplaçant la fonction dans le scope global
-    // (le script non-module a déjà défini save() ; on la réécrit ici)
-    Object.defineProperty(window, '_supabaseUserId', { value: userId, writable: false });
   }
 
-  // ── Écouter les changements de session (ex: token expiré) ──────
-  supabase.auth.onAuthStateChange((event, session) => {
+  const userId    = session.user.id;
+  const userEmail = session.user.email;
+  const localKey  = 'flow_state_' + userId; // fallback cache
+
+  // Show email in topbar
+  const emailEl = document.getElementById('user-email');
+  if (emailEl) emailEl.textContent = userEmail;
+
+  // ── Load data from Supabase ────────────────────────────────────
+  async function loadFromCloud() {
+    try {
+      const { data, error } = await sb
+        .from('user_data')
+        .select('data')
+        .eq('id', userId)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 = row not found (first login), not a real error
+        console.warn('Cloud load error:', error.message);
+        return loadFromLocal();
+      }
+
+      if (data && data.data && Object.keys(data.data).length > 0) {
+        // Cloud has data — use it and cache locally
+        applyLoadedState(data.data);
+        localStorage.setItem(localKey, JSON.stringify(data.data));
+      } else {
+        // No cloud data yet — try local cache
+        loadFromLocal();
+      }
+    } catch(e) {
+      console.warn('Cloud unreachable, using local cache:', e);
+      loadFromLocal();
+    }
+  }
+
+  function loadFromLocal() {
+    const cached = localStorage.getItem(localKey);
+    if (cached) {
+      try { applyLoadedState(JSON.parse(cached)); } catch(e) {}
+    }
+  }
+
+  function applyLoadedState(loaded) {
+    const defaults = {
+      points: 0, habits: [], tasks: [], shopItems: [],
+      completions: {}, planEvents: []
+    };
+    Object.assign(state, defaults, loaded);
+    // Safety migrations
+    if (!state.planEvents)  state.planEvents  = [];
+    if (!state.shopItems)   state.shopItems   = [];
+    if (!state.completions) state.completions = {};
+    if (!state.habits)      state.habits      = [];
+    if (!state.tasks)       state.tasks       = [];
+    updateAll();
+    initPomodoro();
+  }
+
+  // ── Save data to Supabase (+ local cache as fallback) ──────────
+  let saveTimeout = null;
+  async function saveToCloud() {
+    const snapshot = JSON.parse(JSON.stringify(state)); // deep copy
+    // Always update local cache immediately (fast)
+    localStorage.setItem(localKey, JSON.stringify(snapshot));
+
+    // Debounce cloud writes (avoid hammering on rapid changes)
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(async () => {
+      try {
+        const { error } = await sb
+          .from('user_data')
+          .upsert({ id: userId, data: snapshot, updated_at: new Date().toISOString() });
+        if (error) console.warn('Cloud save error:', error.message);
+      } catch(e) {
+        console.warn('Cloud save failed, data cached locally:', e);
+      }
+    }, 800); // wait 800ms after last change before writing to Supabase
+  }
+
+  // ── Override global save() to use cloud sync ──────────────────
+  window.save = function() {
+    updateAll();
+    saveToCloud();
+  };
+
+  // ── Realtime sync: if user opens app on another device,
+  //    detect changes and reload ──────────────────────────────────
+  sb.channel('user_data_changes')
+    .on('postgres_changes', {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'user_data',
+      filter: `id=eq.${userId}`
+    }, (payload) => {
+      // Another device saved — reload our state
+      if (payload.new && payload.new.data) {
+        applyLoadedState(payload.new.data);
+      }
+    })
+    .subscribe();
+
+  // ── Auth state changes ─────────────────────────────────────────
+  sb.auth.onAuthStateChange((event, session) => {
     if (event === 'SIGNED_OUT' || !session) {
       window.location.replace('index.html');
     }
   });
 
-  // ── Déconnexion ────────────────────────────────────────────────
+  // ── Logout ─────────────────────────────────────────────────────
   window.handleLogout = async function() {
     const btn = document.getElementById('logout-btn');
     if (btn) { btn.textContent = '…'; btn.disabled = true; }
-    await supabase.auth.signOut();
+    // Save before logout
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      try {
+        await sb.from('user_data').upsert({
+          id: userId, data: state, updated_at: new Date().toISOString()
+        });
+      } catch(e) {}
+    }
+    await sb.auth.signOut();
     window.location.href = 'index.html';
   };
+
+  // ── Start: load data ───────────────────────────────────────────
+  await loadFromCloud();
 </script>
 </body>
 </html>
